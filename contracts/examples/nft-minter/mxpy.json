@@ -8,7 +8,7 @@
     "contract":{
         "deploy":{
             "verbose": true,
-            "bytecode": "output/nft.wasm",
+            "bytecode": "output/nft-minter.wasm",
             "recall-nonce": true,
             "pem": "../../../../wallet/wallet-owner.pem",
             "gas-limit": 59999999,
