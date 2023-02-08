@@ -1,0 +1,31 @@
+[package]
+name = "composability-tests"
+version = "0.0.0"
+authors = ["Andrei Marinica <andrei.marinica@multiversx.com>"]
+edition = "2021"
+publish = false
+
+[dev-dependencies.forwarder]
+path = "forwarder"
+
+[dev-dependencies.forwarder-raw]
+path = "forwarder-raw"
+
+[dev-dependencies.promises-features]
+path = "promises-features"
+
+[dev-dependencies.proxy-test-first]
+path = "proxy-test-first"
+
+[dev-dependencies.proxy-test-second]
+path = "proxy-test-second"
+
+[dev-dependencies.recursive-caller]
+path = "recursive-caller"
+
+[dev-dependencies.vault]
+path = "vault"
+
+[dev-dependencies.multiversx-sc-scenario]
+version = "0.39.5"
+path = "../../../framework/scenario"

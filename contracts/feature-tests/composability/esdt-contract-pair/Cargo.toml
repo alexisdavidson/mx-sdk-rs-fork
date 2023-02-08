@@ -1,0 +1,20 @@
+[package]
+name = "esdt-contract-pair"
+version = "0.0.0"
+authors = ["Dorin Iancu <dorin.iancu@multiversx.com>"]
+edition = "2021"
+publish = false
+
+[dev-dependencies.first-contract]
+path = "first-contract"
+
+[dev-dependencies.second-contract]
+path = "second-contract"
+
+[dev-dependencies.multiversx-sc]
+version = "0.39.5"
+path = "../../../../framework/base"
+
+[dev-dependencies.multiversx-sc-scenario]
+version = "0.39.5"
+path = "../../../../framework/scenario"

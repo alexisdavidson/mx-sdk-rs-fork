@@ -1,0 +1,39 @@
+[package]
+name = "multiversx-sc-meta"
+version = "0.39.5"
+edition = "2021"
+
+authors = [
+    "Andrei Marinica <andrei.marinica@multiversx.com>",
+    "MultiversX <contact@multiversx.com>",
+]
+license = "GPL-3.0-only"
+readme = "README.md"
+repository = "https://github.com/multiversx/mx-sdk-rs"
+homepage = "https://multiversx.com/"
+documentation = "https://docs.multiversx.com/"
+description = "MultiversX smart contract meta-programming tools and build system"
+keywords = ["multiversx", "blockchain", "contract", "debug"]
+categories = ["cryptography::cryptocurrencies", "development-tools::debugging"]
+
+[[bin]]
+name = "sc-meta"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rustc_version = "0.4"
+toml = { version = "0.5.8", features = ["preserve_order"] }
+ruplacer = "0.8.1"
+clap = { version = "4.1.0", features = ["derive", "cargo"] }
+colored = "2.0"
+pathdiff = "0.2.1"
+common-path = "1.0.0"
+lazy_static = "1.4.0"
+
+[dependencies.multiversx-sc]
+version = "=0.39.5"
+path = "../base"
+features = ["alloc", "num-bigint", "promises", "big-float"]
+
