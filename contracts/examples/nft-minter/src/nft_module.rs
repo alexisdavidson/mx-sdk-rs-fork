@@ -193,7 +193,7 @@ pub trait NftModule {
 
     #[payable("*")]
     #[endpoint(mintNft)]
-    fn mint_nft(&self) {
+    fn mint_nft(&self)-> u64 {
         let (payment_token, payment_amount) = self.call_value().egld_or_single_fungible_esdt();
         require!(payment_amount == self.price_public().get(), "The payment must match the mint price");
 
