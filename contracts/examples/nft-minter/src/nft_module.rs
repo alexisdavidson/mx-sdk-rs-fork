@@ -240,6 +240,8 @@ pub trait NftModule {
         //     nonce: token_used_as_payment_nonce,
         //     amount: selling_price,
         // });
+        
+        self.amount_minted().set(&current_nft_id);
 
         nft_nonce
     }
