@@ -288,7 +288,7 @@ pub trait NftModule {
     // Set royalties
     #[only_owner]
     #[endpoint]
-    fn set_royalties(&self, royalties: u64 ) {
+    fn set_royalties(&self, royalties: BigUint ) {
         self.royalties().set(&royalties);
     }
     
@@ -380,7 +380,7 @@ pub trait NftModule {
 
     #[view(getRoyalties)]
     #[storage_mapper("royalties")]
-    fn royalties(&self) -> SingleValueMapper<u64>;
+    fn royalties(&self) -> SingleValueMapper<BigUint>;
 
     #[view(getWhitelist)]
     #[storage_mapper("whitelist")]
