@@ -16,8 +16,7 @@ pub trait NftMinter: nft_module::NftModule {
     fn init(&self) {
         // set default test values
         let managed_buffer = ManagedBuffer::new();
-        let name_prefix = sc_format!("Name Prefix");
-        self.nft_name_prefix().set(&name_prefix);
+        self.nft_name_prefix().set(&"Name Prefix");
     }
 
     #[allow(clippy::too_many_arguments)]
