@@ -207,7 +207,7 @@ pub trait NftModule {
 
         // let s = current_nft_id.to_string();
 
-        let message = sc_format!("Hello {} world", current_nft_id);
+        let message = sc_format!("Nft Name #", current_nft_id);
 
         // let current_nft_id_bytes = current_nft_id.to_be_bytes();
         // name.append_bytes(&current_nft_id_bytes);
@@ -228,7 +228,7 @@ pub trait NftModule {
         let nft_nonce = self.send().esdt_nft_create(
             &nft_token_id,
             &BigUint::from(NFT_AMOUNT),
-            &name,
+            &message,
             &royalties,
             attributes_hash,
             &attributes,
