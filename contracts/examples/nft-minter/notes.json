@@ -1,0 +1,13 @@
+{
+    "mainnet": {
+        "proxy": "https://gateway.multiversx.com",
+        "chainID": "1",
+        "pem": "../../wallet/wallet-owner-main.pem"
+    },
+    "devnet": {
+        "proxy": "https://devnet-api.elrond.com",
+        "chainID": "D",
+        "pem": "../../wallet/wallet-owner.pem"
+    },
+    "arguments": ["0x426c6f636b536c696d657301", 6000, "0x555249737472696e67", 1300000000000000000]
+}
