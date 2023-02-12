@@ -195,7 +195,7 @@ pub trait NftModule {
         require!(!self.nft_token_id().is_empty(), "Token not issued");
     }
     
-    /// Set nft_token_id
+    // Set nft_token_id
     #[only_owner]
     #[endpoint]
     fn set_nft_token_id(&self, token_id: TokenIdentifier ) {
@@ -204,9 +204,69 @@ pub trait NftModule {
 
     // storage
 
+    #[view(getMintEnabled)]
+    #[storage_mapper("mintEnabled")]
+    fn mint_enabled(&self) -> SingleValueMapper<bool>;
+
+    #[view(getImageFolderUri)]
+    #[storage_mapper("imageFolderUri")]
+    fn image_folder_uri(&self) -> SingleValueMapper<ManagedBuffer>;
+
+    #[view(getAttributeFolderUri)]
+    #[storage_mapper("attributeFolderUri")]
+    fn attribute_folder_uri(&self) -> SingleValueMapper<ManagedBuffer>;
+
+    #[view(getNftNamePrefix)]
+    #[storage_mapper("nftNamePrefix")]
+    fn nft_name_prefix(&self) -> SingleValueMapper<ManagedBuffer>;
+
+    #[view(getCollectionUri)]
+    #[storage_mapper("collectionUri")]
+    fn collection_uri(&self) -> SingleValueMapper<ManagedBuffer>;
+
     #[view(getTokenId)]
     #[storage_mapper("nftTokenId")]
     fn nft_token_id(&self) -> SingleValueMapper<TokenIdentifier>;
+
+    #[view(getMaxSupply)]
+    #[storage_mapper("maxSupply")]
+    fn max_supply(&self) -> SingleValueMapper<u64>;
+
+    #[view(getRoyalties)]
+    #[storage_mapper("royalties")]
+    fn royalties(&self) -> SingleValueMapper<u64>;
+
+    #[view(getWhitelist)]
+    #[storage_mapper("whitelist")]
+    fn whitelist(&self) -> VecMapper<u64>;
+
+    #[view(getOg)]
+    #[storage_mapper("og")]
+    fn og(&self) -> VecMapper<u64>;
+
+    #[view(getPricePublic)]
+    #[storage_mapper("pricePublic")]
+    fn price_public(&self) -> SingleValueMapper<BigUint>;
+
+    #[view(getPriceWhitelist)]
+    #[storage_mapper("priceWhitelist")]
+    fn price_whitelist(&self) -> SingleValueMapper<BigUint>;
+
+    #[view(getPriceOg)]
+    #[storage_mapper("priceOg")]
+    fn price_og(&self) -> SingleValueMapper<BigUint>;
+
+    #[view(getMaximumMintAmountPublic)]
+    #[storage_mapper("maximumMintAmountPublic")]
+    fn maximum_mint_amount_public(&self) -> SingleValueMapper<u64>;
+
+    #[view(getMaximumMintAmountWhitelist)]
+    #[storage_mapper("maximumMintAmountWhitelist")]
+    fn maximum_mint_amount_whitelist(&self) -> SingleValueMapper<u64>;
+
+    #[view(getMaximumMintAmountOg)]
+    #[storage_mapper("maximumMintAmountOg")]
+    fn maximum_mint_amount_og(&self) -> SingleValueMapper<u64>;
 
     #[view(getPriceTag)]
     #[storage_mapper("priceTag")]
