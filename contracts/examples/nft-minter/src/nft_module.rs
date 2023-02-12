@@ -200,7 +200,7 @@ pub trait NftModule {
         let nft_token_id = self.nft_token_id().get();
         let name = self.nft_name_prefix().get(); // todo: append nonce
         let royalties = self.royalties().get();
-        let uri = self.imageFolderUri().get(); // todo: use right uri and append nonce + filetype
+        let uri = self.image_folder_uri().get(); // todo: use right uri and append nonce + filetype
         let uris = ManagedVec::from_single_item(uri);
 
         let attributes = ManagedBuffer::new(); // todo: use right uri and add tags and stuff
