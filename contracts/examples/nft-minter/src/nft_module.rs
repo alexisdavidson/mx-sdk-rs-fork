@@ -217,6 +217,104 @@ pub trait NftModule {
     fn set_image_folder_uri(&self, image_folder_uri: ManagedBuffer ) {
         self.image_folder_uri().set(&image_folder_uri);
     }
+    
+    // Set attribute_folder_uri
+    #[only_owner]
+    #[endpoint]
+    fn set_attribute_folder_uri(&self, attribute_folder_uri: ManagedBuffer ) {
+        self.attribute_folder_uri().set(&attribute_folder_uri);
+    }
+    
+    // Set nft_name_prefix
+    #[only_owner]
+    #[endpoint]
+    fn set_nft_name_prefix(&self, nft_name_prefix: ManagedBuffer ) {
+        self.nft_name_prefix().set(&nft_name_prefix);
+    }
+    
+    // Set collection_uri
+    #[only_owner]
+    #[endpoint]
+    fn set_collection_uri(&self, collection_uri: ManagedBuffer ) {
+        self.collection_uri().set(&collection_uri);
+    }
+    
+    // Set max_supply
+    #[only_owner]
+    #[endpoint]
+    fn set_max_supply(&self, max_supply: u64 ) {
+        self.max_supply().set(&max_supply);
+    }
+    
+    // Set royalties
+    #[only_owner]
+    #[endpoint]
+    fn set_royalties(&self, royalties: u64 ) {
+        self.royalties().set(&royalties);
+    }
+    
+    // Set price_public
+    #[only_owner]
+    #[endpoint]
+    fn set_price_public(&self, price_public: BigUint ) {
+        self.price_public().set(&price_public);
+    }
+    
+    // Set price_public
+    #[only_owner]
+    #[endpoint]
+    fn set_price_public(&self, price_public: BigUint ) {
+        self.price_public().set(&price_public);
+    }
+    
+    // Set price_whitelist
+    #[only_owner]
+    #[endpoint]
+    fn set_price_whitelist(&self, price_whitelist: BigUint ) {
+        self.price_whitelist().set(&price_whitelist);
+    }
+    
+    // Set price_og
+    #[only_owner]
+    #[endpoint]
+    fn set_price_og(&self, price_og: BigUint ) {
+        self.price_og().set(&price_og);
+    }
+    
+    // Set maximum_mint_amount_public
+    #[only_owner]
+    #[endpoint]
+    fn set_maximum_mint_amount_public(&self, maximum_mint_amount_public: u64 ) {
+        self.maximum_mint_amount_public().set(&maximum_mint_amount_public);
+    }
+    
+    // Set maximum_mint_amount_whitelist
+    #[only_owner]
+    #[endpoint]
+    fn set_maximum_mint_amount_whitelist(&self, maximum_mint_amount_whitelist: u64 ) {
+        self.maximum_mint_amount_whitelist().set(&maximum_mint_amount_whitelist);
+    }
+    
+    // Set maximum_mint_amount_og
+    #[only_owner]
+    #[endpoint]
+    fn set_maximum_mint_amount_og(&self, maximum_mint_amount_og: u64 ) {
+        self.maximum_mint_amount_og().set(&maximum_mint_amount_og);
+    }
+    
+    // Set whitelist
+    // #[only_owner]
+    // #[endpoint]
+    // fn set_whitelist(&self, whitelist: u64 ) {
+    //     self.whitelist().set(&whitelist);
+    // }
+    
+    // // Set og
+    // #[only_owner]
+    // #[endpoint]
+    // fn set_og(&self, og: u64 ) {
+    //     self.og().set(&og);
+    // }
 
     // storage
 
