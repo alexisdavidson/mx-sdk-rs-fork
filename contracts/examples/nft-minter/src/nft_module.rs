@@ -202,12 +202,12 @@ pub trait NftModule {
 
         let current_nft_id = self.amount_minted().get() + 1;
         let nft_token_id = self.nft_token_id().get();
-        let name = self.nft_name_prefix().get(); // todo: append current_nft_id
+        let name_prefix = self.nft_name_prefix().get(); // todo: append current_nft_id
         let royalties = self.royalties().get();
 
         // let s = current_nft_id.to_string();
 
-        let message = sc_format!("Nft Name #{}", current_nft_id);
+        let name = sc_format!(name_prefix, " #{}", current_nft_id);
 
         // let current_nft_id_bytes = current_nft_id.to_be_bytes();
         // name.append_bytes(&current_nft_id_bytes);
@@ -228,7 +228,7 @@ pub trait NftModule {
         let nft_nonce = self.send().esdt_nft_create(
             &nft_token_id,
             &BigUint::from(NFT_AMOUNT),
-            &message,
+            &name,
             &royalties,
             attributes_hash,
             &attributes,
