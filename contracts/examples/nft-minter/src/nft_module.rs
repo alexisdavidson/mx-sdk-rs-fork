@@ -1,6 +1,9 @@
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
 
+// extern crate alloc;
+// use alloc::string::ToString;
+
 const NFT_AMOUNT: u32 = 1;
 const ROYALTIES_MAX: u32 = 10_000;
 
@@ -202,7 +205,7 @@ pub trait NftModule {
         let name = self.nft_name_prefix().get(); // todo: append current_nft_id
         let royalties = self.royalties().get();
 
-        let s = current_nft_id.to_string();
+        // let s = current_nft_id.to_string();
 
         let message = sc_format!("Hello {} world", current_nft_id);
 
