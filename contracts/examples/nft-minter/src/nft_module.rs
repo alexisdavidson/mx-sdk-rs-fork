@@ -202,7 +202,7 @@ pub trait NftModule {
         let name = self.nft_name_prefix().get(); // todo: append current_nft_id
         let royalties = self.royalties().get();
 
-        let message = sc_format!("Hello {} world", &current_nft_id);
+        // let message = sc_format!("Hello {} world", &current_nft_id);
 
         // let current_nft_id_bytes = current_nft_id.to_be_bytes();
         // name.append_bytes(&current_nft_id_bytes);
