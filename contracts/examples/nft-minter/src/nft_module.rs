@@ -260,13 +260,6 @@ pub trait NftModule {
         self.price_public().set(&price_public);
     }
     
-    // Set price_public
-    #[only_owner]
-    #[endpoint]
-    fn set_price_public(&self, price_public: BigUint ) {
-        self.price_public().set(&price_public);
-    }
-    
     // Set price_whitelist
     #[only_owner]
     #[endpoint]
