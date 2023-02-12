@@ -195,7 +195,7 @@ pub trait NftModule {
     #[endpoint(mintNft)]
     fn mint_nft(&self) {
         let (payment_token, payment_amount) = self.call_value().egld_or_single_fungible_esdt();
-        require!(payment_amount == self.ticket_price().get(), "The payment must match the mint price");
+        require!(payment_amount == self.price_public().get(), "The payment must match the mint price");
 
         let nft_token_id = self.nft_token_id().get();
         let name = self.nft_name_prefix().get(); // todo: append nonce
