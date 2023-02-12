@@ -149,36 +149,6 @@ pub trait NftModule {
         }
     }
 
-    // #[callback]
-    // fn mint_callback(
-    //     &self
-    // ) {
-    //     let nft_token_id = self.nft_token_id().get();
-    //     let nft_nonce = self.amount_minted().get();
-    //     let caller = self.blockchain().get_caller();
-    //     self.send().direct_esdt(
-    //         &caller,
-    //         &nft_token_id,
-    //         nft_nonce,
-    //         &BigUint::from(NFT_AMOUNT),
-    //     );
-    //     // match result {
-    //     //     ManagedAsyncCallResult::Ok(token_id) => {
-    //     //         // self.nft_token_id().set(&token_id.unwrap_esdt());
-                
-
-    //     //     },
-    //     //     ManagedAsyncCallResult::Err(_) => {
-    //     //         let caller = self.blockchain().get_owner_address();
-    //     //         let returned = self.call_value().egld_or_single_esdt();
-    //     //         // if returned.token_identifier.is_egld() && returned.amount > 0 {
-    //     //         //     self.send()
-    //     //         //         .direct(&caller, &returned.token_identifier, 0, &returned.amount);
-    //     //         // }
-    //     //     },
-    //     // }
-    // }
-
     // private
 
     #[allow(clippy::too_many_arguments)]
@@ -267,39 +237,20 @@ pub trait NftModule {
             &uris,
         );
 
-        self.amount_minted().set(&current_nft_id);
-
-        self.send()
-            .esdt_system_sc_proxy()
-            .issue_non_fungible(
-                payment_amount,
-                &token_name,
-                &token_ticker,
-                NonFungibleTokenProperties {
-                    can_freeze: true,
-                    can_wipe: true,
-                    can_pause: true,
-                    can_transfer_create_role: true,
-                    can_change_owner: false,
-                    can_upgrade: false,
-                    can_add_special_roles: true,
-                },
-            )
-        
-        // let nft_nonce = self.amount_minted().get();
-        // let caller = self.blockchain().get_caller();
-        // self.send().direct_esdt(
-        //     &caller,
-        //     &nft_token_id,
-        //     nft_nonce,
-        //     &BigUint::from(NFT_AMOUNT),
-        // );
+        let caller = self.blockchain().get_caller();
+        self.send().direct_esdt(
+            &caller,
+            &nft_token_id,
+            nft_nonce,
+            &BigUint::from(NFT_AMOUNT),
+        );
         // self.price_tag(nft_nonce).set(&PriceTag {
         //     token: token_used_as_payment,
         //     nonce: token_used_as_payment_nonce,
         //     amount: selling_price,
         // });
         
+        self.amount_minted().set(&current_nft_id);
 
         nft_nonce
     }
