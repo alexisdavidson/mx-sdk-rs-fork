@@ -18,19 +18,19 @@ pub trait NftMinter: nft_module::NftModule {
         let name_prefix = sc_format!("Name Prefix");
         self.nft_name_prefix().set(&name_prefix);
 
-        let royalties = BigUint::from(750);
+        let royalties = BigUint::from(750u64);
         self.royalties().set(&royalties);
 
         let max_supply = 10 as u64;
         self.max_supply().set(&max_supply);
         
-        let price_public = BigUint::from(10);
+        let price_public = BigUint::from(10u64);
         self.price_public().set(&price_public);
         
-        let price_whitelist = BigUint::from(10);
+        let price_whitelist = BigUint::from(10u64);
         self.price_whitelist().set(&price_whitelist);
         
-        let price_og = BigUint::from(0);
+        let price_og = BigUint::from(0u64);
         self.price_og().set(&price_og);
         
         let maximum_mint_amount_public = 0 as u64;
