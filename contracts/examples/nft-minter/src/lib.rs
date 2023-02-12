@@ -18,31 +18,31 @@ pub trait NftMinter: nft_module::NftModule {
         let name_prefix = sc_format!("Name Prefix");
         self.nft_name_prefix().set(&name_prefix);
 
-        let royalties = 750
+        let royalties = 750;
         self.royalties().set(&royalties);
 
-        let max_supply = 10
+        let max_supply = 10;
         self.max_supply().set(&max_supply);
         
-        let price_public = 10
+        let price_public = 10;
         self.price_public().set(&price_public);
         
-        let price_whitelist = 10
+        let price_whitelist = 10;
         self.price_whitelist().set(&price_whitelist);
         
-        let price_og = 0
+        let price_og = 0;
         self.price_og().set(&price_og);
         
-        let maximum_mint_amount_public = 0
+        let maximum_mint_amount_public = 0;
         self.maximum_mint_amount_public().set(&maximum_mint_amount_public);
         
-        let maximum_mint_amount_whitelist = 10
+        let maximum_mint_amount_whitelist = 10;
         self.maximum_mint_amount_whitelist().set(&maximum_mint_amount_whitelist);
         
-        let maximum_mint_amount_og = 1
+        let maximum_mint_amount_og = 1;
         self.maximum_mint_amount_og().set(&maximum_mint_amount_og);
         
-        let mint_enabled = true
+        let mint_enabled = true;
         self.mint_enabled().set(&mint_enabled);
         
         let image_folder_uri = sc_format!("Name Prefix");
