@@ -13,7 +13,9 @@ pub struct ExampleAttributes {
 #[multiversx_sc::contract]
 pub trait NftMinter: nft_module::NftModule {
     #[init]
-    fn init(&self) {}
+    fn init(&self) {
+        // set default test values
+    }
 
     #[allow(clippy::too_many_arguments)]
     #[allow(clippy::redundant_closure)]

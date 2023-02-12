@@ -191,6 +191,45 @@ pub trait NftModule {
         nft_nonce
     }
 
+    #[payable("*")]
+    #[endpoint(mintNft)]
+    fn mint_nft(&self) {
+        let (payment_token, payment_amount) = self.call_value().egld_or_single_fungible_esdt();
+        require!(payment_amount == self.ticket_price().get(), "The payment must match the mint price");
+
+        let nft_token_id = self.nft_token_id().get();
+        let name = self.nft_name_prefix().get(); // todo: append nonce
+        let royalties = self.royalties().get();
+        let uri = self.imageFolderUri().get(); // todo: use right uri and append nonce + filetype
+        let uris = ManagedVec::from_single_item(uri);
+
+        let attributes = ManagedBuffer::new(); // todo: use right uri and add tags and stuff
+        let mut serialized_attributes = ManagedBuffer::new();
+        if let core::result::Result::Err(err) = attributes.top_encode(&mut serialized_attributes) {
+            sc_panic!("Attributes encode error: {}", err.message_bytes());
+        }
+        let attributes_sha256 = self.crypto().sha256(&serialized_attributes);
+        let attributes_hash = attributes_sha256.as_managed_buffer();
+
+        let nft_nonce = self.send().esdt_nft_create(
+            &nft_token_id,
+            &BigUint::from(NFT_AMOUNT),
+            &name,
+            &royalties,
+            attributes_hash,
+            &attributes,
+            &uris,
+        );
+
+        // self.price_tag(nft_nonce).set(&PriceTag {
+        //     token: token_used_as_payment,
+        //     nonce: token_used_as_payment_nonce,
+        //     amount: selling_price,
+        // });
+
+        nft_nonce
+    }
+
     fn require_token_issued(&self) {
         require!(!self.nft_token_id().is_empty(), "Token not issued");
     }
