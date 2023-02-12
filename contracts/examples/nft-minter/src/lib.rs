@@ -15,7 +15,7 @@ pub trait NftMinter: nft_module::NftModule {
     #[init]
     fn init(&self) {
         // set default test values
-        let name_prefix = "Name Prefix";
+        let name_prefix = sc_format!("Name Prefix");
         self.nft_name_prefix().set(&name_prefix);
     }
 
