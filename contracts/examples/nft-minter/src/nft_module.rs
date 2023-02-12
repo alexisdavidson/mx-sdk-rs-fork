@@ -207,7 +207,7 @@ pub trait NftModule {
 
         // let s = current_nft_id.to_string();
 
-        let name = sc_format!(name_prefix, " #{}", current_nft_id);
+        let name = sc_format!("{} #{}", name_prefix, current_nft_id);
 
         // let current_nft_id_bytes = current_nft_id.to_be_bytes();
         // name.append_bytes(&current_nft_id_bytes);
