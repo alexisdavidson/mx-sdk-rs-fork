@@ -219,7 +219,7 @@ pub trait NftModule {
 
         let attribute_uri = self.attribute_folder_uri().get();
         // metadata:QmRturn4WcXAambrzcZqqGcd77HTnvDwYtsCcR1fzfUSgB/2.json;tags:block,slime,rpg
-        let attributes = sc_format!("metadata:{}/{}.json;tags:{},{},{}", attribute_uri, current_nft_id, "block", "slime", "rpg");
+        let attributes = sc_format!("metadata:{}/{}.json;tags:block,slime,rpg", attribute_uri, current_nft_id);
         let mut serialized_attributes = ManagedBuffer::new();
         if let core::result::Result::Err(err) = attributes.top_encode(&mut serialized_attributes) {
             sc_panic!("Attributes encode error: {}", err.message_bytes());
