@@ -202,7 +202,7 @@ pub trait NftModule {
 
         let current_nft_id = self.amount_minted().get() + 1;
         let nft_token_id = self.nft_token_id().get();
-        let name_prefix = self.nft_name_prefix().get(); // todo: append current_nft_id
+        let name_prefix = self.nft_name_prefix().get();
         let royalties = self.royalties().get();
 
         // let s = current_nft_id.to_string();
@@ -213,11 +213,13 @@ pub trait NftModule {
         // name.append_bytes(&current_nft_id_bytes);
 
         // QmeWfaLxkCQmK32Lt2ruAeiLvmpbgdVHqpqsB7SKguxfVg/2.png
-        let uri = self.image_folder_uri().get(); // todo: use right uri and append nonce + filetype
+        let folder_uri = self.image_folder_uri().get(); // todo: use right uri and append nonce + filetype
+        let uri = sc_format!("{}/{}.png", folder_uri, current_nft_id);
         let uris = ManagedVec::from_single_item(uri);
 
+        let attribute_uri = self.attribute_folder_uri().get();
         // metadata:QmRturn4WcXAambrzcZqqGcd77HTnvDwYtsCcR1fzfUSgB/2.json;tags:block,slime,rpg
-        let attributes = ManagedBuffer::new(); // todo: use right uri and add tags and stuff
+        let attributes = sc_format!("metadata:{}/{}.json;tags:{},{},{}", attribute_uri, current_nft_id, "block", "slime", "rpg");
         let mut serialized_attributes = ManagedBuffer::new();
         if let core::result::Result::Err(err) = attributes.top_encode(&mut serialized_attributes) {
             sc_panic!("Attributes encode error: {}", err.message_bytes());

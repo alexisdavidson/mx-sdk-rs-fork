@@ -45,16 +45,13 @@ pub trait NftMinter: nft_module::NftModule {
         let mint_enabled = true;
         self.mint_enabled().set(&mint_enabled);
         
-        let image_folder_uri = sc_format!("Name Prefix");
+        let image_folder_uri = sc_format!("QmeWfaLxkCQmK32Lt2ruAeiLvmpbgdVHqpqsB7SKguxfVg");
         self.image_folder_uri().set(&image_folder_uri);
         
-        let image_folder_uri = sc_format!("Name Prefix");
-        self.image_folder_uri().set(&image_folder_uri);
-        
-        let attribute_folder_uri = sc_format!("Name Prefix");
+        let attribute_folder_uri = sc_format!("QmRturn4WcXAambrzcZqqGcd77HTnvDwYtsCcR1fzfUSgB");
         self.attribute_folder_uri().set(&attribute_folder_uri);
         
-        let collection_uri = sc_format!("Name Prefix");
+        let collection_uri = sc_format!("Qme3YyVPrWuRtTFsBoLG5g9TvcdccyyveHrYdicEzo3gDn");
         self.collection_uri().set(&collection_uri);
     }
 
