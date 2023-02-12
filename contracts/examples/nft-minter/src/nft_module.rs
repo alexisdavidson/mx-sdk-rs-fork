@@ -212,11 +212,11 @@ pub trait NftModule {
     }
     
     // Set image_folder_uri
-    // #[only_owner]
-    // #[endpoint]
-    // fn set_image_folder_uri(&self, image_folder_uri: SingleValueMapper<ManagedBuffer> ) {
-    //     self.image_folder_uri().set(&image_folder_uri);
-    // }
+    #[only_owner]
+    #[endpoint]
+    fn set_image_folder_uri(&self, image_folder_uri: ManagedBuffer ) {
+        self.image_folder_uri().set(&image_folder_uri);
+    }
 
     // storage
 
