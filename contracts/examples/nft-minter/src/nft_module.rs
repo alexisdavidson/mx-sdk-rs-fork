@@ -286,14 +286,14 @@ pub trait NftModule {
                 },
             )
         
-        let nft_nonce = self.amount_minted().get();
-        let caller = self.blockchain().get_caller();
-        self.send().direct_esdt(
-            &caller,
-            &nft_token_id,
-            nft_nonce,
-            &BigUint::from(NFT_AMOUNT),
-        );
+        // let nft_nonce = self.amount_minted().get();
+        // let caller = self.blockchain().get_caller();
+        // self.send().direct_esdt(
+        //     &caller,
+        //     &nft_token_id,
+        //     nft_nonce,
+        //     &BigUint::from(NFT_AMOUNT),
+        // );
         // self.price_tag(nft_nonce).set(&PriceTag {
         //     token: token_used_as_payment,
         //     nonce: token_used_as_payment_nonce,
