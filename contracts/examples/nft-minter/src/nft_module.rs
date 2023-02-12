@@ -194,12 +194,28 @@ pub trait NftModule {
     fn require_token_issued(&self) {
         require!(!self.nft_token_id().is_empty(), "Token not issued");
     }
+
+    // Setters
     
     // Set nft_token_id
     #[only_owner]
     #[endpoint]
     fn set_nft_token_id(&self, token_id: TokenIdentifier ) {
         self.nft_token_id().set(&token_id);
+    }
+    
+    // Set mint_enabled
+    #[only_owner]
+    #[endpoint]
+    fn set_mint_enabled(&self, mint_enabled: bool ) {
+        self.mint_enabled().set(&mint_enabled);
+    }
+    
+    // Set image_folder_uri
+    #[only_owner]
+    #[endpoint]
+    fn set_image_folder_uri(&self, image_folder_uri: SingleValueMapper<ManagedBuffer> ) {
+        self.image_folder_uri().set(&image_folder_uri);
     }
 
     // storage
