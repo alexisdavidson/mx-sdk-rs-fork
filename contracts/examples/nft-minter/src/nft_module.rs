@@ -199,7 +199,7 @@ pub trait NftModule {
 
         let current_nft_id = self.amount_minted().get() + 1;
         let nft_token_id = self.nft_token_id().get();
-        let name = self.nft_name_prefix().get(); // todo: append current_nft_id
+        let mut name = self.nft_name_prefix().get(); // todo: append current_nft_id
         let royalties = self.royalties().get();
 
         let current_nft_id_bytes = current_nft_id.to_be_bytes();
