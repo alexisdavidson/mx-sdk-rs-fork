@@ -194,6 +194,13 @@ pub trait NftModule {
     fn require_token_issued(&self) {
         require!(!self.nft_token_id().is_empty(), "Token not issued");
     }
+    
+    /// Set nft_token_id
+    #[only_owner]
+    #[endpoint]
+    fn set_nft_token_id(&self, token_id: TokenIdentifier ) {
+        self.nft_token_id().set(&token_id);
+    }
 
     // storage
 
