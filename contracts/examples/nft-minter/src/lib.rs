@@ -18,7 +18,7 @@ pub trait NftMinter: nft_module::NftModule {
         let name_prefix = sc_format!("Name Prefix");
         self.nft_name_prefix().set(&name_prefix);
 
-        let royalties = 750 as BigUint;
+        let royalties = BigUint::from(750);
         self.royalties().set(&royalties);
 
         let max_supply = 10 as u64;
