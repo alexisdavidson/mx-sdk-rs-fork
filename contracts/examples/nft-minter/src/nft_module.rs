@@ -197,12 +197,19 @@ pub trait NftModule {
         let (payment_token, payment_amount) = self.call_value().egld_or_single_fungible_esdt();
         require!(payment_amount == self.price_public().get(), "The payment must match the mint price");
 
+        let current_nft_id = self.amount_minted().get() + 1;
         let nft_token_id = self.nft_token_id().get();
-        let name = self.nft_name_prefix().get(); // todo: append nonce
+        let name = self.nft_name_prefix().get(); // todo: append current_nft_id
         let royalties = self.royalties().get();
+
+        let current_nft_id_bytes = current_nft_id.to_be_bytes();
+        name.append_bytes(&current_nft_id_bytes);
+
+        // QmeWfaLxkCQmK32Lt2ruAeiLvmpbgdVHqpqsB7SKguxfVg/2.png
         let uri = self.image_folder_uri().get(); // todo: use right uri and append nonce + filetype
         let uris = ManagedVec::from_single_item(uri);
 
+        // metadata:QmRturn4WcXAambrzcZqqGcd77HTnvDwYtsCcR1fzfUSgB/2.json;tags:block,slime,rpg
         let attributes = ManagedBuffer::new(); // todo: use right uri and add tags and stuff
         let mut serialized_attributes = ManagedBuffer::new();
         if let core::result::Result::Err(err) = attributes.top_encode(&mut serialized_attributes) {
@@ -334,6 +341,13 @@ pub trait NftModule {
         self.maximum_mint_amount_og().set(&maximum_mint_amount_og);
     }
     
+    // Set amount_minted
+    #[only_owner]
+    #[endpoint]
+    fn set_amount_minted(&self, amount_minted: u64 ) {
+        self.amount_minted().set(&amount_minted);
+    }
+    
     // Set whitelist
     // #[only_owner]
     // #[endpoint]
@@ -349,6 +363,10 @@ pub trait NftModule {
     // }
 
     // storage
+
+    #[view(getAmountMinted)]
+    #[storage_mapper("amount_minted")]
+    fn amount_minted(&self) -> SingleValueMapper<u64>;
 
     #[view(getMintEnabled)]
     #[storage_mapper("mintEnabled")]
