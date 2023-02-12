@@ -17,6 +17,27 @@ pub trait NftMinter: nft_module::NftModule {
         // set default test values
         let name_prefix = sc_format!("Name Prefix");
         self.nft_name_prefix().set(&name_prefix);
+        self.royalties().set(&750);
+        self.max_supply().set(&10);
+        self.price_public().set(&10);
+        self.price_whitelist().set(&10);
+        self.price_og().set(&0);
+        self.maximum_mint_amount_public().set(&0);
+        self.maximum_mint_amount_whitelist().set(&10);
+        self.maximum_mint_amount_og().set(&1);
+        self.mint_enabled().set(&true);
+        
+        let image_folder_uri = sc_format!("Name Prefix");
+        self.image_folder_uri().set(&image_folder_uri);
+        
+        let image_folder_uri = sc_format!("Name Prefix");
+        self.image_folder_uri().set(&image_folder_uri);
+        
+        let attribute_folder_uri = sc_format!("Name Prefix");
+        self.attribute_folder_uri().set(&attribute_folder_uri);
+        
+        let collection_uri = sc_format!("Name Prefix");
+        self.collection_uri().set(&collection_uri);
     }
 
     #[allow(clippy::too_many_arguments)]
