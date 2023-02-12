@@ -236,6 +236,8 @@ pub trait NftModule {
             &attributes,
             &uris,
         );
+        
+        self.amount_minted().set(&current_nft_id);
 
         let caller = self.blockchain().get_caller();
         self.send().direct_esdt(
@@ -250,7 +252,6 @@ pub trait NftModule {
         //     amount: selling_price,
         // });
         
-        self.amount_minted().set(&current_nft_id);
 
         nft_nonce
     }
