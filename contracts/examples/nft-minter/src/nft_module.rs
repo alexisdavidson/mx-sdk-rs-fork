@@ -199,11 +199,11 @@ pub trait NftModule {
 
         let current_nft_id = self.amount_minted().get() + 1;
         let nft_token_id = self.nft_token_id().get();
-        let mut name = self.nft_name_prefix().get(); // todo: append current_nft_id
+        let name = self.nft_name_prefix().get(); // todo: append current_nft_id
         let royalties = self.royalties().get();
 
-        let current_nft_id_bytes = current_nft_id.to_be_bytes();
-        name.append_bytes(&current_nft_id_bytes);
+        // let current_nft_id_bytes = current_nft_id.to_be_bytes();
+        // name.append_bytes(&current_nft_id_bytes);
 
         // QmeWfaLxkCQmK32Lt2ruAeiLvmpbgdVHqpqsB7SKguxfVg/2.png
         let uri = self.image_folder_uri().get(); // todo: use right uri and append nonce + filetype
