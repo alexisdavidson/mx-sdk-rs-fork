@@ -204,7 +204,7 @@ pub trait NftModule {
         let royalties = self.royalties().get();
         let nft_token_id = self.nft_token_id().get();
         let folder_uri = self.image_folder_uri().get();
-        let mut current_nft_id = 0u64
+        let mut current_nft_id = 0u64;
 
         for i in 0..quantity {
             current_nft_id = self.amount_minted().get() + 1;
