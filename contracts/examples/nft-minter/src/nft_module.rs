@@ -245,7 +245,7 @@ pub trait NftModule {
             
         }
 
-        nft_nonce
+        // nft_nonce
     }
 
     fn require_token_issued(&self) {
