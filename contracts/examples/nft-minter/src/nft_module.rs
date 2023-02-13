@@ -195,12 +195,23 @@ pub trait NftModule {
         nft_nonce
     }
 
+    #[only_owner]
+    #[endpoint(airdropNft)]
+    fn airdrop_nft(&self, user_address: ManagedAddress, quantity: u64)-> u64 {
+        self.perform_mint(user_address, quantity)
+    }
+
     #[payable("*")]
     #[endpoint(mintNft)]
     fn mint_nft(&self, quantity: u64)-> u64 {
         let (payment_token, payment_amount) = self.call_value().egld_or_single_fungible_esdt();
         require!(payment_amount == self.price_public().get() * quantity, "The payment must match the mint price");
 
+        let caller = self.blockchain().get_caller();
+        self.perform_mint(caller, quantity)
+    }
+
+    fn perform_mint(&self, user_address: ManagedAddress, quantity: u64)-> u64 {
         let name_prefix = self.nft_name_prefix().get();
         let royalties = self.royalties().get();
         let nft_token_id = self.nft_token_id().get();
@@ -237,9 +248,8 @@ pub trait NftModule {
             
             self.amount_minted().set(&current_nft_id);
 
-            let caller = self.blockchain().get_caller();
             self.send().direct_esdt(
-                &caller,
+                &user_address,
                 &nft_token_id,
                 nft_nonce,
                 &BigUint::from(NFT_AMOUNT),
