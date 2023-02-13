@@ -196,62 +196,54 @@ pub trait NftModule {
 
     #[payable("*")]
     #[endpoint(mintNft)]
-    fn mint_nft(&self)-> u64 {
+    fn mint_nft(&self, quantity: u64)-> u64 {
         let (payment_token, payment_amount) = self.call_value().egld_or_single_fungible_esdt();
-        require!(payment_amount == self.price_public().get(), "The payment must match the mint price");
+        require!(payment_amount == self.price_public().get() * quantity, "The payment must match the mint price");
 
-        let current_nft_id = self.amount_minted().get() + 1;
-        let nft_token_id = self.nft_token_id().get();
         let name_prefix = self.nft_name_prefix().get();
         let royalties = self.royalties().get();
+        let nft_token_id = self.nft_token_id().get();
+        let folder_uri = self.image_folder_uri().get();
 
-        // let s = current_nft_id.to_string();
+        for i in 0..quantity {
+            let current_nft_id = self.amount_minted().get() + 1;
 
-        let name = sc_format!("{} #{}", name_prefix, current_nft_id);
+            let name = sc_format!("{} #{}", name_prefix, current_nft_id);
+            // QmeWfaLxkCQmK32Lt2ruAeiLvmpbgdVHqpqsB7SKguxfVg/2.png
+            let uri = sc_format!("{}/{}.png", folder_uri, current_nft_id);
+            let uris = ManagedVec::from_single_item(uri);
 
-        // let current_nft_id_bytes = current_nft_id.to_be_bytes();
-        // name.append_bytes(&current_nft_id_bytes);
+            let attribute_uri = self.attribute_folder_uri().get();
+            // metadata:QmRturn4WcXAambrzcZqqGcd77HTnvDwYtsCcR1fzfUSgB/2.json;tags:block,slime,rpg
+            let attributes = sc_format!("metadata:{}/{}.json;tags:block,slime,rpg", attribute_uri, current_nft_id);
+            let mut serialized_attributes = ManagedBuffer::new();
+            if let core::result::Result::Err(err) = attributes.top_encode(&mut serialized_attributes) {
+                sc_panic!("Attributes encode error: {}", err.message_bytes());
+            }
+            let attributes_sha256 = self.crypto().sha256(&serialized_attributes);
+            let attributes_hash = attributes_sha256.as_managed_buffer();
 
-        // QmeWfaLxkCQmK32Lt2ruAeiLvmpbgdVHqpqsB7SKguxfVg/2.png
-        let folder_uri = self.image_folder_uri().get(); // todo: use right uri and append nonce + filetype
-        let uri = sc_format!("{}/{}.png", folder_uri, current_nft_id);
-        let uris = ManagedVec::from_single_item(uri);
+            let nft_nonce = self.send().esdt_nft_create(
+                &nft_token_id,
+                &BigUint::from(NFT_AMOUNT),
+                &name,
+                &royalties,
+                attributes_hash,
+                &attributes,
+                &uris,
+            );
+            
+            self.amount_minted().set(&current_nft_id);
 
-        let attribute_uri = self.attribute_folder_uri().get();
-        // metadata:QmRturn4WcXAambrzcZqqGcd77HTnvDwYtsCcR1fzfUSgB/2.json;tags:block,slime,rpg
-        let attributes = sc_format!("metadata:{}/{}.json;tags:block,slime,rpg", attribute_uri, current_nft_id);
-        let mut serialized_attributes = ManagedBuffer::new();
-        if let core::result::Result::Err(err) = attributes.top_encode(&mut serialized_attributes) {
-            sc_panic!("Attributes encode error: {}", err.message_bytes());
+            let caller = self.blockchain().get_caller();
+            self.send().direct_esdt(
+                &caller,
+                &nft_token_id,
+                nft_nonce,
+                &BigUint::from(NFT_AMOUNT),
+            );
+            
         }
-        let attributes_sha256 = self.crypto().sha256(&serialized_attributes);
-        let attributes_hash = attributes_sha256.as_managed_buffer();
-
-        let nft_nonce = self.send().esdt_nft_create(
-            &nft_token_id,
-            &BigUint::from(NFT_AMOUNT),
-            &name,
-            &royalties,
-            attributes_hash,
-            &attributes,
-            &uris,
-        );
-        
-        self.amount_minted().set(&current_nft_id);
-
-        let caller = self.blockchain().get_caller();
-        self.send().direct_esdt(
-            &caller,
-            &nft_token_id,
-            nft_nonce,
-            &BigUint::from(NFT_AMOUNT),
-        );
-        // self.price_tag(nft_nonce).set(&PriceTag {
-        //     token: token_used_as_payment,
-        //     nonce: token_used_as_payment_nonce,
-        //     amount: selling_price,
-        // });
-        
 
         nft_nonce
     }
