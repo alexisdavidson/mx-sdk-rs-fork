@@ -204,9 +204,10 @@ pub trait NftModule {
         let royalties = self.royalties().get();
         let nft_token_id = self.nft_token_id().get();
         let folder_uri = self.image_folder_uri().get();
+        let mut current_nft_id = 0u64
 
         for i in 0..quantity {
-            let current_nft_id = self.amount_minted().get() + 1;
+            current_nft_id = self.amount_minted().get() + 1;
 
             let name = sc_format!("{} #{}", name_prefix, current_nft_id);
             // QmeWfaLxkCQmK32Lt2ruAeiLvmpbgdVHqpqsB7SKguxfVg/2.png
@@ -245,7 +246,7 @@ pub trait NftModule {
             
         }
 
-        // nft_nonce
+        current_nft_id
     }
 
     fn require_token_issued(&self) {
