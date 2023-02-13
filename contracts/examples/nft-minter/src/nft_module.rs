@@ -137,6 +137,7 @@ pub trait NftModule {
         match result {
             ManagedAsyncCallResult::Ok(token_id) => {
                 self.nft_token_id().set(&token_id.unwrap_esdt());
+                self.set_local_roles();
             },
             ManagedAsyncCallResult::Err(_) => {
                 let caller = self.blockchain().get_owner_address();
