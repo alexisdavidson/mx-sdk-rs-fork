@@ -222,9 +222,28 @@ pub trait NftModule {
 
     #[payable("*")]
     #[endpoint(mintNft)]
-    fn mint_nft(&self, quantity: u64)-> u64 {
+    fn mint_nft(
+        &self, 
+        quantity: u64,
+        opt_affiliate: OptionalValue<usize>
+    )-> u64 {
         let (payment_token, payment_amount) = self.call_value().egld_or_single_fungible_esdt();
-        require!(payment_amount == self.price_public().get() * quantity, "The payment must match the mint price");
+        let price = self.price_public().get() * quantity; // todo: price depending on whitelist
+        require!(payment_amount == price, "The payment must match the mint price");
+
+        
+        let affiliate_id = match opt_affiliate {
+            OptionalValue::Some(t) => t,
+            OptionalValue::None => 0,
+        };
+
+        if affiliate_id != 0 {
+            require!(affiliate_id <= self.affiliate_address().len(), "Invalid affiliate id");
+            let affiliate_address_for_id = self.affiliate_address().get(affiliate_address_id);
+            let affiliate_reward = price / 10;
+
+            // todo: send affiliate reward
+        }
 
         let caller = self.blockchain().get_caller();
         self.perform_mint(caller, quantity)
