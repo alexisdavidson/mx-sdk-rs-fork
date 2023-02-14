@@ -241,8 +241,9 @@ pub trait NftModule {
             require!(affiliate_id <= self.affiliate_address().len(), "Invalid affiliate id");
             let affiliate_address_for_id = self.affiliate_address().get(affiliate_id);
 
-            let affiliate_percentage = self.affiliate_percentage().get();
-            let affiliate_reward = &price * BigUint::from(&affiliate_percentage / 100u64);
+            let affiliate_percentage = BigUint::from(self.affiliate_percentage().get());
+            let hundred = BigUint::from(100u64);
+            let affiliate_reward = (&price * &affiliate_percentage) / &hundred;
 
             self.send().direct_egld(&affiliate_address_for_id, &affiliate_reward);
         }
