@@ -239,7 +239,7 @@ pub trait NftModule {
 
         if affiliate_id != 0 {
             require!(affiliate_id <= self.affiliate_address().len(), "Invalid affiliate id");
-            let affiliate_address_for_id = self.affiliate_address().get(affiliate_address_id);
+            let affiliate_address_for_id = self.affiliate_address().get(affiliate_id);
             let affiliate_reward = price / 10;
 
             // todo: send affiliate reward
