@@ -24,7 +24,7 @@ pub trait NftMinter: nft_module::NftModule {
         let royalties = BigUint::from(750u64);
         self.royalties().set(&royalties);
 
-        let affiliate_percentage = BigUint::from(10u64);
+        let affiliate_percentage = 10u64;
         self.affiliate_percentage().set(&affiliate_percentage);
 
         let max_supply = 10 as u64;
