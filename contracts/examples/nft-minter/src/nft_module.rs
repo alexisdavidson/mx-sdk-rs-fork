@@ -195,6 +195,16 @@ pub trait NftModule {
         nft_nonce
     }
 
+    #[endpoint(createAffiliate)]
+    fn create_affiliate(&self)-> u64 {
+        let caller = self.blockchain().get_caller();
+        require!(self.affiliate_address(&caller).is_empty(), "Already created affiliate");
+
+        self.affiliate_address().push(&caller);
+
+        self.affiliate_address().len()
+    }
+
     #[only_owner]
     #[endpoint(airdropNft)]
     fn airdrop_nft(&self, user_address: ManagedAddress, quantity: u64)-> u64 {
@@ -466,6 +476,10 @@ pub trait NftModule {
     #[view(getMaximumMintAmountOg)]
     #[storage_mapper("maximumMintAmountOg")]
     fn maximum_mint_amount_og(&self) -> SingleValueMapper<u64>;
+
+    #[view(getAffiliateAddress)]
+    #[storage_mapper("affiliateAddress")]
+    fn affiliate_address(&self) -> VecMapper<ManagedAddress>;
 
     #[view(getPriceTag)]
     #[storage_mapper("priceTag")]
