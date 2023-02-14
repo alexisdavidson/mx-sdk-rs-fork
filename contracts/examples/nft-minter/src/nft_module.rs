@@ -207,7 +207,7 @@ pub trait NftModule {
 
     fn get_affiliate_by_address(&self, user_address: ManagedAddress)-> usize {
         for i in 0..self.affiliate_address().len() {
-            if self.affiliate_address().get(i) == user_address {
+            if self.affiliate_address().get(i + 1) == user_address {
                 return i
             }
         }
