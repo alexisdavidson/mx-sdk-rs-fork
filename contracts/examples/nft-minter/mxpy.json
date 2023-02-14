@@ -11,7 +11,7 @@
             "bytecode": "output/nft-minter.wasm",
             "recall-nonce": true,
             "pem": "../../../../wallet/wallet-owner.pem",
-            "gas-limit": 69999999,
+            "gas-limit": 79999999,
             "send": true,
             "outfile": "deploy-testnet.interaction.json"
         }
