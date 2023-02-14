@@ -243,6 +243,7 @@ pub trait NftModule {
             let affiliate_reward = price / 10;
 
             // todo: send affiliate reward
+            self.send().direct_egld(&affiliate_address_for_id, &affiliate_reward);
         }
 
         let caller = self.blockchain().get_caller();
