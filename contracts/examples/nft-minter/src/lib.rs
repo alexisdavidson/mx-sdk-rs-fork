@@ -17,6 +17,9 @@ pub trait NftMinter: nft_module::NftModule {
         // set default test values
         let name_prefix = sc_format!("Name Prefix");
         self.nft_name_prefix().set(&name_prefix);
+        
+        let nft_tags = sc_format!("block,slime,rpg");
+        self.nft_tags().set(&nft_tags);
 
         let royalties = BigUint::from(750u64);
         self.royalties().set(&royalties);

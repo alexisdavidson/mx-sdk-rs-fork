@@ -217,6 +217,7 @@ pub trait NftModule {
         let nft_token_id = self.nft_token_id().get();
         let folder_uri = self.image_folder_uri().get();
         let mut current_nft_id = 0u64;
+        let nft_tags = self.nft_tags().get();
 
         for i in 0..quantity {
             current_nft_id = self.amount_minted().get() + 1;
@@ -228,7 +229,7 @@ pub trait NftModule {
 
             let attribute_uri = self.attribute_folder_uri().get();
             // metadata:QmRturn4WcXAambrzcZqqGcd77HTnvDwYtsCcR1fzfUSgB/2.json;tags:block,slime,rpg
-            let attributes = sc_format!("metadata:{}/{}.json;tags:block,slime,rpg", attribute_uri, current_nft_id);
+            let attributes = sc_format!("metadata:{}/{}.json;tags:{}", attribute_uri, current_nft_id, nft_tags);
             let mut serialized_attributes = ManagedBuffer::new();
             if let core::result::Result::Err(err) = attributes.top_encode(&mut serialized_attributes) {
                 sc_panic!("Attributes encode error: {}", err.message_bytes());
@@ -299,6 +300,13 @@ pub trait NftModule {
     #[endpoint]
     fn set_nft_name_prefix(&self, nft_name_prefix: ManagedBuffer ) {
         self.nft_name_prefix().set(&nft_name_prefix);
+    }
+    
+    // Set nft_tags
+    #[only_owner]
+    #[endpoint]
+    fn set_nft_tags(&self, nft_tags: ManagedBuffer ) {
+        self.nft_tags().set(&nft_tags);
     }
     
     // Set collection_uri
@@ -406,6 +414,10 @@ pub trait NftModule {
     #[view(getNftNamePrefix)]
     #[storage_mapper("nftNamePrefix")]
     fn nft_name_prefix(&self) -> SingleValueMapper<ManagedBuffer>;
+
+    #[view(getNftTags)]
+    #[storage_mapper("nftTags")]
+    fn nft_tags(&self) -> SingleValueMapper<ManagedBuffer>;
 
     #[view(getCollectionUri)]
     #[storage_mapper("collectionUri")]
