@@ -242,8 +242,7 @@ pub trait NftModule {
             let affiliate_address_for_id = self.affiliate_address().get(affiliate_id);
 
             let affiliate_percentage = BigUint::from(self.affiliate_percentage().get());
-            let hundred = BigUint::from(100u64);
-            let affiliate_reward = (&price * &affiliate_percentage) / &hundred;
+            let affiliate_reward = (&price * &affiliate_percentage) / &BigUint::from(100u64);
 
             self.send().direct_egld(&affiliate_address_for_id, &affiliate_reward);
         }
