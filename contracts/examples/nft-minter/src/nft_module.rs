@@ -200,7 +200,7 @@ pub trait NftModule {
         let caller = self.blockchain().get_caller();
         require!(self.get_affiliate_by_address(caller) == 0, "Already created affiliate");
 
-        self.affiliate_address().push(caller);
+        self.affiliate_address().push(&caller);
 
         self.affiliate_address().len()
     }
