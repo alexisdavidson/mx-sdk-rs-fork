@@ -196,9 +196,9 @@ pub trait NftModule {
     }
 
     #[endpoint(createAffiliate)]
-    fn create_affiliate(&self)-> u64 {
+    fn create_affiliate(&self)-> usize {
         let caller = self.blockchain().get_caller();
-        require!(self.affiliate_address(&caller).is_empty(), "Already created affiliate");
+        require!(self.affiliate_address(1).is_empty(), "Already created affiliate");
 
         self.affiliate_address().push(&caller);
 
