@@ -231,7 +231,10 @@ pub trait NftModule {
         let price = self.price_public().get() * quantity; // todo: price depending on whitelist
         require!(payment_amount == price, "The payment must match the mint price");
 
-        
+        // todo: amount minted per address check AT THE SAME TIME AS PRICE
+        // self.user_reward(&caller).set(&reward);
+
+        let mut received_funds = payment_amount;
         let affiliate_id = match opt_affiliate {
             OptionalValue::Some(t) => t,
             OptionalValue::None => 0,
@@ -245,7 +248,11 @@ pub trait NftModule {
             let affiliate_reward = (&price * &affiliate_percentage) / &BigUint::from(100u64);
 
             self.send().direct_egld(&affiliate_address_for_id, &affiliate_reward);
+            received_funds -= &affiliate_reward;
         }
+
+        let receiving_wallet = self.receiving_wallet().get();
+        self.send().direct_egld(&receiving_wallet, &received_funds);
 
         let caller = self.blockchain().get_caller();
         self.perform_mint(caller, quantity)
@@ -303,6 +310,16 @@ pub trait NftModule {
 
     fn require_token_issued(&self) {
         require!(!self.nft_token_id().is_empty(), "Token not issued");
+    }
+
+    // Claim balance
+    #[only_owner]
+    #[endpoint]
+    fn claim(&self) {
+        let caller = self.blockchain().get_caller();
+        let egld_balance = self.blockchain().get_sc_balance(&EgldOrEsdtTokenIdentifier::egld(), 0);
+
+        self.send().direct_egld(&caller, &egld_balance);
     }
 
     // Setters
@@ -419,6 +436,13 @@ pub trait NftModule {
         self.maximum_mint_amount_og().set(&maximum_mint_amount_og);
     }
     
+    // Set receiving_wallet
+    #[only_owner]
+    #[endpoint]
+    fn set_receiving_wallet(&self, receiving_wallet: ManagedAddress ) {
+        self.receiving_wallet().set(&receiving_wallet);
+    }
+    
     // Set amount_minted
     #[only_owner]
     #[endpoint]
@@ -441,6 +465,14 @@ pub trait NftModule {
     // }
 
     // storage
+
+    #[view(getWhitelist)]
+    #[storage_mapper("whitelist")]
+    fn whitelist(&self) -> WhitelistMapper<ManagedAddress>;
+
+    #[view(getOg)]
+    #[storage_mapper("og")]
+    fn og(&self) -> SingleValueMapper<ManagedAddress>;
 
     #[view(getAmountMinted)]
     #[storage_mapper("amount_minted")]
@@ -482,14 +514,6 @@ pub trait NftModule {
     #[storage_mapper("royalties")]
     fn royalties(&self) -> SingleValueMapper<BigUint>;
 
-    #[view(getWhitelist)]
-    #[storage_mapper("whitelist")]
-    fn whitelist(&self) -> VecMapper<u64>;
-
-    #[view(getOg)]
-    #[storage_mapper("og")]
-    fn og(&self) -> VecMapper<u64>;
-
     #[view(getPricePublic)]
     #[storage_mapper("pricePublic")]
     fn price_public(&self) -> SingleValueMapper<BigUint>;
@@ -521,6 +545,14 @@ pub trait NftModule {
     #[view(getAffiliateAddress)]
     #[storage_mapper("affiliateAddress")]
     fn affiliate_address(&self) -> VecMapper<ManagedAddress>;
+
+    #[view(getAmountMintedPerAddress)]
+    #[storage_mapper("amountMintedPerAddress")]
+    fn amount_minted_per_address(&self, address: &ManagedAddress) -> SingleValueMapper<u64>;
+
+    #[view(getReceivingWallet)]
+    #[storage_mapper("receivingWallet")]
+    fn receiving_wallet(&self) -> SingleValueMapper<ManagedAddress>;
 
     #[view(getPriceTag)]
     #[storage_mapper("priceTag")]

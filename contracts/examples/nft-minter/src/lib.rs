@@ -15,6 +15,9 @@ pub trait NftMinter: nft_module::NftModule {
     #[init]
     fn init(&self) {
         // set default test values
+        let caller = self.blockchain().get_caller();
+        self.receiving_wallet().set(&caller);
+
         let name_prefix = sc_format!("Name Prefix");
         self.nft_name_prefix().set(&name_prefix);
         
